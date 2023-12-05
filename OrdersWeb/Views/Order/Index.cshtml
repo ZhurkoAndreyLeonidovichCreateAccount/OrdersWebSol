@@ -1,0 +1,86 @@
+﻿@model IEnumerable<OrderView> 
+<style>
+    .table-link {
+        cursor: pointer;
+        text-decoration: underline;
+        color: blue;
+    }
+</style>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    FilterView filter = ViewBag.Filter;
+}
+
+<form asp-action="Index" method="post">
+    <div class="form-group mb-2">
+        <label asp-for="@filter.StartDate"></label>
+        <input asp-for="@filter.StartDate" class="form-control">
+    </div>
+    <div class="form-group mb-2">
+        <label asp-for="@filter.EndDate"></label>
+        <input asp-for="@filter.EndDate" class="form-control">
+    </div>
+    <div class="select-group mb-2">
+        <label asp-for="@filter.OrderNumbers"></label>
+        <select class="form-select" multiple asp-items="@filter.OrderNumbersSelect" asp-for="@filter.OrderNumbers">
+            <option selected disabled>All</option>
+        </select>
+    </div>
+    <div class="select-group mb-2">
+        <label asp-for="@filter.ItemNames"></label>
+        <select class="form-select" multiple asp-items="@filter.ItemNamesSelect" asp-for="@filter.ItemNames">
+            <option selected disabled>All</option>
+        </select>
+    </div>
+    <div class="select-group mb-2">
+        <label asp-for="@filter.OrderItemUnitsList"></label>
+        <select class="form-select" multiple asp-items="@filter.OrderItemUnitsListSelect" asp-for="@filter.OrderItemUnitsList">
+            <option selected disabled>All</option>
+        </select>
+    </div>
+    
+    <div class="select-group mb-2">
+        <label asp-for="@filter.ProvidersName"></label>
+        <select class="form-select" multiple asp-items="@filter.ProvidersNameSelect" asp-for="@filter.ProvidersName">
+            <option selected disabled>All</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </div>
+    
+</form>
+
+
+<table  class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" >@Html.DisplayNameFor(model=>model.Number)</th>
+            <th scope="col">@Html.DisplayNameFor(model=>model.Date)</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="table-link" onclick="location.href='@Url.Action("Detail", new { id = item.Id })';">
+                <td>@item.Number</td>
+                <td>@item.Date.ToString("dd.MM.yyyy")</td>
+            </tr>
+         
+        }
+    </tbody>
+</table>
+<div class="mb-3">
+    <a class="btn btn-primary" asp-action="Create">Create new Order</a>
+</div>
+
+
+
+
+
+
+
